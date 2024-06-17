@@ -12,15 +12,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TimeSeriesIntradayService = void 0;
 const common_1 = require("@nestjs/common");
 const axios_1 = require("@nestjs/axios");
-const operators_1 = require("rxjs/operators");
+const rxjs_1 = require("rxjs");
 let TimeSeriesIntradayService = class TimeSeriesIntradayService {
     constructor(httpService) {
         this.httpService = httpService;
     }
-    fetch_intraday() {
-        return this.httpService
-            .get('https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_WEEKLY&symbol=BTC&market=EUR&apikey=RIBXT3XYLI69PC0Q')
-            .pipe((0, operators_1.map)((response) => response.data));
+    async fetch_intraday(page) {
+        const response = await (0, rxjs_1.lastValueFrom)(this.httpService.get('https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_WEEKLY&symbol=BTC&market=EUR&apikey=RIBXT3XYLI69PC0Q'));
+        const items = response.data['Time Series (Digital Currency Weekly)'];
+        const pgStart = (page - 1) * 10;
+        const pgFinish = pgStart + 10;
+        const pageIndexes = Object.keys(items).slice(pgStart, pgFinish);
+        console.log('page indexes', items);
+        const responseObj = {};
+        for (const day of pageIndexes) {
+            responseObj[`${day}`] = items[`${day}`];
+        }
+        return responseObj;
     }
 };
 exports.TimeSeriesIntradayService = TimeSeriesIntradayService;
