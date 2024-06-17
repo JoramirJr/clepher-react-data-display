@@ -23,11 +23,13 @@ let TimeSeriesIntradayService = class TimeSeriesIntradayService {
         const pgStart = (page - 1) * 10;
         const pgFinish = pgStart + 10;
         const pageIndexes = Object.keys(items).slice(pgStart, pgFinish);
-        console.log('page indexes', items);
-        const responseObj = {};
+        const responseObj = { timeSeries: {}, pages: null, currentPage: null, totalItems: null };
         for (const day of pageIndexes) {
-            responseObj[`${day}`] = items[`${day}`];
+            responseObj.timeSeries[`${day}`] = items[`${day}`];
         }
+        responseObj.currentPage = page;
+        responseObj.totalItems = Object.keys(items).length;
+        responseObj.pages = Math.floor(responseObj.totalItems / 10);
         return responseObj;
     }
 };
