@@ -1,15 +1,16 @@
 import { Controller, Get } from '@nestjs/common';
 import { TimeSeriesIntradayService } from './service';
 import { AxiosResponse } from 'axios';
+import { Observable } from 'rxjs';
 
-
-@Controller('time-series-intraday')
+@Controller('intraday')
 export class TimeSeriesIntradayController {
-  constructor(private readonly timeSeriesIntradayService: TimeSeriesIntradayService) { }
+  constructor(
+    private readonly timeSeriesIntradayService: TimeSeriesIntradayService,
+  ) {}
 
   @Get()
-  fetch_intraday(): Promise<AxiosResponse<any>> {
-    return this.timeSeriesIntradayService.findAll();
+  fetch_intraday(): Observable<AxiosResponse<any>> {
+    return this.timeSeriesIntradayService.fetch_intraday();
   }
-
 }
