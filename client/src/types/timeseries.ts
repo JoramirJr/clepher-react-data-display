@@ -13,6 +13,7 @@ interface IAPIResponse {
   timeSeries: ITimeSeries
   pages: number,
   currentPage: number
+  totalItems: number
 };
 
 export type { IDailyData, ITimeSeries, IAPIResponse }

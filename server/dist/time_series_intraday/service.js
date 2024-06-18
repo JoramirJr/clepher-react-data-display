@@ -20,7 +20,6 @@ let TimeSeriesIntradayService = class TimeSeriesIntradayService {
     async fetch_intraday(page) {
         const response = await (0, rxjs_1.lastValueFrom)(this.httpService.get('https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_WEEKLY&symbol=BTC&market=EUR&apikey=RIBXT3XYLI69PC0Q'));
         const items = response.data['Time Series (Digital Currency Weekly)'];
-        console.log('data', response.data);
         const pgStart = (page - 1) * 10;
         const pgFinish = pgStart + 10;
         const pageIndexes = Object.keys(items).slice(pgStart, pgFinish);
