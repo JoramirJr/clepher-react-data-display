@@ -6,11 +6,11 @@ function useFetchTimeSeries() {
   const [apiResponse, setApiResponse] = useState<IAPIResponse>();
 
   useEffect(() => {
-    fetch_data();
+    // fetch_data();
   }, []);
 
-  async function fetch_data(page?: number) {
-    const data: string = await (await fetch(`http://localhost:3001?page=${page}`)).json();
+  async function fetch_data(page: number = 1) {
+    const data: string = await (await fetch(`http://localhost:3001/intraday?page=${page}`)).json();
     setApiResponse(JSON.parse(data) as IAPIResponse);
   }
 
